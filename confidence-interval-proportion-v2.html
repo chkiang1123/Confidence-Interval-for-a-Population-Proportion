@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Confidence Interval for a Population Proportion — HKDSE M1</title>
+<meta name="description" content="A visual guide to confidence intervals for a population proportion: sampling distribution, formula, interactive normal curve, number line, and HKDSE 2020 M1 Q4.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+  onload="renderMathInDocument(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+<style>
+  :root{
+    --bg:#f8fafc; --card:#fff; --ink:#0f172a; --ink-2:#334155; --muted:#64748b; --line:#e2e8f0;
+    --blue:#2563eb; --blue-soft:#eff6ff; --green:#059669; --green-soft:#ecfdf5;
+    --red:#dc2626; --red-soft:#fef2f2; --purple:#7c3aed; --purple-soft:#f5f3ff;
+    --orange:#ea580c; --orange-soft:#fff7ed;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+  h1,h2,h3,h4{margin:0 0 .4em;line-height:1.25}
+  a{color:var(--blue);text-decoration:none}
+  .wrap{max-width:1000px;margin:0 auto;padding:24px}
+
+  header{position:relative;padding:64px 24px 48px;background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 50%,#7c3aed 100%);color:#fff;text-align:center;overflow:hidden}
+  header::after{content:"";position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='none' stroke='rgba(255,255,255,.08)'/%3E%3Ccircle cx='50' cy='50' r='28' fill='none' stroke='rgba(255,255,255,.08)'/%3E%3C/svg%3E");background-size:160px;opacity:.4}
+  header .content{position:relative;z-index:1}
+  header h1{font-size:2.4rem;font-weight:800}
+  header p{font-size:1.1rem;opacity:.92;margin:.5em 0 1em}
+  .badges{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+  .badge{font-size:.8rem;font-weight:600;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.18);backdrop-filter:blur(6px)}
+
+  nav{position:sticky;top:0;z-index:20;background:rgba(248,250,252,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:12px 24px}
+  nav a{font-size:.85rem;font-weight:600;padding:6px 12px;border-radius:8px;color:var(--ink-2);transition:.15s}
+  nav a:hover{background:var(--blue-soft);color:var(--blue)}
+
+  section.card{background:var(--card);border-radius:16px;box-shadow:0 4px 20px rgba(15,23,42,.06);padding:28px;margin:24px 0}
+  h2{font-size:1.5rem;color:#1e3a8a;display:flex;align-items:center;gap:10px}
+  .num{width:32px;height:32px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-size:.95rem;font-weight:700}
+  h3{color:var(--ink-2);font-size:1.15rem;margin-top:1.2em}
+
+  .concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:18px 0}
+  .concept-card{border:1px solid var(--line);border-radius:12px;padding:18px;background:#fff;position:relative}
+  .concept-card b{display:block;color:#1e3a8a;margin-bottom:4px;font-size:.9rem;text-transform:uppercase;letter-spacing:.04em}
+  .arrow{display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:1.4rem}
+
+  .formula-box{background:var(--blue-soft);border-left:4px solid var(--blue);border-radius:12px;padding:18px 22px;margin:18px 0}
+  .formula-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0}
+  .equals{font-weight:700;color:var(--blue);font-size:1.1rem}
+
+  .note{border-radius:10px;padding:14px 16px;margin:14px 0;font-size:.95rem}
+  .note.green{background:var(--green-soft);border-left:4px solid var(--green)}
+  .note.red{background:var(--red-soft);border-left:4px solid var(--red)}
+  .note.purple{background:var(--purple-soft);border-left:4px solid var(--purple)}
+  .note.orange{background:var(--orange-soft);border-left:4px solid var(--orange)}
+
+  .controls{display:flex;flex-wrap:wrap;gap:16px 24px;align-items:center;margin:18px 0}
+  .control{display:flex;align-items:center;gap:8px}
+  .control label{font-weight:600;color:var(--ink-2);font-size:.9rem}
+  input[type=range]{width:160px;accent-color:var(--blue)}
+  input[type=number], select{padding:6px 10px;border:1px solid #cbd5e1;border-radius:8px;font-size:.95rem;width:100px}
+  .value-pill{background:#fff;border:1px solid var(--line);border-radius:8px;padding:4px 10px;font-weight:700;min-width:52px;text-align:center}
+
+  .btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:.9rem;font-weight:600;cursor:pointer;transition:.15s}
+  .btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+  .btn.sec{background:#f1f5f9;color:var(--ink)}
+  .btn-row{display:flex;gap:8px;flex-wrap:wrap}
+
+  .svg-wrap{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;margin:14px 0}
+  svg{display:block;width:100%;height:auto}
+
+  .stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+  .stat{background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:.85rem}
+  .stat b{color:var(--blue)}
+
+  .step{border-left:4px solid var(--purple);background:#f5f3ff;border-radius:8px;padding:14px 16px;margin:12px 0;display:none}
+  .step.show{display:block;animation:fade .35s}
+  @keyframes fade{from{opacity:0;transform:translateY(-8px)}to{opacity:1}}
+  .ans{font-weight:700;color:var(--green)}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}.concept-grid{grid-template-columns:1fr}.arrow{display:none}}
+
+  footer{text-align:center;color:var(--muted);font-size:.85rem;padding:36px 24px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="content">
+    <h1>Confidence Interval for a Population Proportion</h1>
+    <p>Visual guide for HKDSE Mathematics Extended Part — Module 1 (Calculus and Statistics)</p>
+    <div class="badges">
+      <span class="badge">Learning Unit 23</span>
+      <span class="badge">Objective 23.1</span>
+      <span class="badge">Point &amp; Interval Estimation</span>
+      <span class="badge">DSE 2020 M1 Q4</span>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <div class="wrap">
+    <a href="#idea">Idea</a>
+    <a href="#formula">Formula</a>
+    <a href="#zcurve">z-curve</a>
+    <a href="#playground">Playground</a>
+    <a href="#dse">2020 Q4</a>
+    <a href="#mistakes">Mistakes</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<!-- ========= 1. The idea ========= -->
+<section class="card" id="idea">
+  <h2><span class="num">1</span>The big idea</h2>
+  <p>We want a population proportion $p$ — for example the true proportion of magazine subscribers who will renew. We cannot ask everyone, so we take a random sample of size $n$ and count successes $x$. The <strong>sample proportion</strong> is</p>
+  $$ p_s = \frac{x}{n} $$
+  <p>This $p_s$ is a single number, so it is almost certainly not exactly $p$. Instead we give a <strong>range</strong> of plausible values, called a confidence interval.</p>
+
+  <div class="concept-grid">
+    <div class="concept-card"><b>Population</b>A fixed but unknown proportion $p$ that we want to estimate.</div>
+    <div class="arrow">→</div>
+    <div class="concept-card"><b>Sample</b>$n$ randomly chosen people. We observe $x$ successes.</div>
+    <div class="arrow">→</div>
+    <div class="concept-card"><b>Estimate</b>$p_s = x/n$. It varies from sample to sample.</div>
+    <div class="arrow">→</div>
+    <div class="concept-card"><b>Interval</b>$p_s \pm z \times \text{SE}$. We are $(1-\alpha)100\%$ "confident" $p$ is inside.</div>
+  </div>
+
+  <div class="note green">
+    <strong>Why the normal approximation works.</strong> When $n$ is large, the sampling distribution of $P_s$ is approximately normal with mean $p$ and variance $\frac{p(1-p)}{n}$:
+    $$P_s \sim N\!\left(p,\ \frac{p(1-p)}{n}\right).$$
+    Because $p$ is unknown, we replace it by $p_s$ when calculating the standard error.
+  </div>
+</section>
+
+<!-- ========= 2. The formula ========= -->
+<section class="card" id="formula">
+  <h2><span class="num">2</span>The formula</h2>
+  <div class="formula-box">
+    <div class="formula-row">
+      <span>Sample proportion</span><span class="equals">=</span><span>$p_s = \dfrac{x}{n}$</span>
+    </div>
+    <div class="formula-row">
+      <span>Standard error</span><span class="equals">=</span><span>$\sqrt{\dfrac{p_s(1-p_s)}{n}}$</span>
+    </div>
+    <div class="formula-row">
+      <span>Confidence interval</span><span class="equals">=</span><span>$p_s \pm z\sqrt{\dfrac{p_s(1-p_s)}{n}}$</span>
+    </div>
+    <div class="formula-row">
+      <span>Width</span><span class="equals">=</span><span>$2z\sqrt{\dfrac{p_s(1-p_s)}{n}}$</span>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="note purple">
+      <strong>Common $z$ values</strong><br>
+      90% confidence → $z = 1.645$<br>
+      95% confidence → $z = 1.960$<br>
+      99% confidence → $z = 2.575$
+    </div>
+    <div class="note orange">
+      <strong>What controls the width?</strong><br>
+      • Higher confidence → larger $z$ → wider interval.<br>
+      • Larger sample size $n$ → smaller SE → narrower interval.<br>
+      • $p_s$ close to $0.5$ gives the largest SE.
+    </div>
+  </div>
+</section>
+
+<!-- ========= 3. Interactive normal curve ========= -->
+<section class="card" id="zcurve">
+  <h2><span class="num">3</span>From $z$ to confidence level</h2>
+  <p>The confidence level is the <strong>central area</strong> under the standard normal curve between $-z$ and $z$:</p>
+  $$\frac{\beta}{100} = P(-z < Z < z) = 2P(0 < Z < z).$$
+  <p>Drag the slider or pick a preset to see how the central (confidence) area and the two tail areas change.</p>
+
+  <div class="controls">
+    <div class="control">
+      <label for="zSlider">$z = $</label>
+      <input type="range" id="zSlider" min="0.5" max="3.5" step="0.005" value="1.96">
+      <span class="value-pill" id="zVal">1.960</span>
+    </div>
+    <div class="btn-row">
+      <button class="btn sec" onclick="setZ(1.645)">90%</button>
+      <button class="btn sec" onclick="setZ(1.96)">95%</button>
+      <button class="btn sec" onclick="setZ(2.575)">99%</button>
+    </div>
+  </div>
+
+  <div class="svg-wrap">
+    <svg id="curveSvg" viewBox="0 0 700 300"></svg>
+  </div>
+
+  <div class="stats" id="curveStats"></div>
+</section>
+
+<!-- ========= 4. Playground ========= -->
+<section class="card" id="playground">
+  <h2><span class="num">4</span>Build your own interval</h2>
+  <p>Change $n$, $x$ and the confidence level. Watch how the interval moves on the number line and how its width changes.</p>
+
+  <div class="controls">
+    <div class="control"><label for="nInput">$n$</label><input type="number" id="nInput" value="841" min="1"></div>
+    <div class="control"><label for="xInput">successes $x$</label><input type="number" id="xInput" value="441" min="0"></div>
+    <div class="control">
+      <label for="levelSelect">Level</label>
+      <select id="levelSelect">
+        <option value="90">90%</option>
+        <option value="95" selected>95%</option>
+        <option value="99">99%</option>
+      </select>
+    </div>
+    <button class="btn" onclick="playground()">Update</button>
+  </div>
+
+  <div class="stats" id="playStats"></div>
+
+  <div class="svg-wrap">
+    <svg id="lineSvg" viewBox="0 0 700 160"></svg>
+  </div>
+</section>
+
+<!-- ========= 5. DSE 2020 Q4 ========= -->
+<section class="card" id="dse">
+  <h2><span class="num">5</span>HKDSE 2020 M1 Q4</h2>
+  <div class="note" style="background:#f8fafc;border:1px solid var(--line)">
+    <p>A magazine publisher wants to estimate the proportion $p$ of its current subscribers who will continue to subscribe next year. It is given that the publisher randomly selects 841 current subscribers, and 441 of them will continue to subscribe.</p>
+    <p>(a) Find an approximate 95% confidence interval for $p$.</p>
+    <p>(b) An approximate $\beta\%$ confidence interval for $p$ is now constructed. The width of the confidence interval is 0.088. Find $\beta$ correct to the nearest integer.</p>
+  </div>
+
+  <div class="btn-row" style="margin:14px 0">
+    <button class="btn green" onclick="nextStep()">Show next step</button>
+    <button class="btn sec" onclick="showAllSteps()">Show all</button>
+    <button class="btn sec" onclick="hideAllSteps()">Hide all</button>
+  </div>
+
+  <div class="step">
+    <strong>Step 1 — Identify what is given.</strong>
+    <p>$n = 841$, number of successes $x = 441$, so</p>
+    $$p_s = \frac{441}{841} \approx 0.524376,\qquad 1-p_s = \frac{400}{841}.$$
+    <p class="small">These are "nice" numbers: $841 = 29^2$, $441 = 21^2$, $400 = 20^2$.</p>
+  </div>
+
+  <div class="step">
+    <strong>Step 2 — Standard error.</strong>
+    $$\sqrt{\frac{p_s(1-p_s)}{n}} = \sqrt{\frac{\frac{441}{841}\cdot\frac{400}{841}}{841}} = \frac{\sqrt{441\cdot 400}}{841\sqrt{841}} = \frac{21\cdot 20}{841\cdot 29} = \frac{420}{24389} \approx 0.017221.$$
+  </div>
+
+  <div class="step">
+    <strong>Step 3 — (a) 95% confidence interval.</strong>
+    <p>Use $z = 1.96$:</p>
+    $$\left(p_s - 1.96\sqrt{\frac{p_s(1-p_s)}{n}},\ \ p_s + 1.96\sqrt{\frac{p_s(1-p_s)}{n}}\right)$$
+    $$= (0.524376 - 0.033753,\ 0.524376 + 0.033753)$$
+    <p class="ans">∴ Approximate 95% confidence interval ≈ (0.4906, 0.5581).</p>
+  </div>
+
+  <div class="step">
+    <strong>Step 4 — (b) Use the width to find $z$.</strong>
+    <p>The width is twice the margin of error:</p>
+    $$2z\sqrt{\frac{p_s(1-p_s)}{n}} = 0.088 \;\Rightarrow\; 2z\left(\frac{420}{24389}\right) = 0.088$$
+    $$z = \frac{0.044 \times 24389}{420} \approx 2.555.$$
+  </div>
+
+  <div class="step">
+    <strong>Step 5 — (b) Convert $z$ to $\beta$.</strong>
+    <p>From the standard normal table, $P(0 &lt; Z &lt; 2.555) \approx 0.4947$.</p>
+    $$\frac{\beta}{100} = P(-2.555 &lt; Z &lt; 2.555) = 2(0.4947) = 0.9894$$
+    $$\beta \approx 98.94.$$
+    <p class="ans">∴ $\beta = 99$ (correct to the nearest integer).</p>
+    <p class="small">Check: a 99% interval uses $z = 2.575$, giving width $2(2.575)(0.017221) \approx 0.0887 \approx 0.088$. Consistent.</p>
+  </div>
+</section>
+
+<!-- ========= 6. Common mistakes ========= -->
+<section class="card" id="mistakes">
+  <h2><span class="num">6</span>Common mistakes to avoid</h2>
+  <div class="grid2">
+    <div class="note red">
+      <strong>✗ Forgetting to divide by $n$</strong>
+      <p>The standard error is $\sqrt{\dfrac{p_s(1-p_s)}{n}}$, not $\sqrt{p_s(1-p_s)}$.</p>
+    </div>
+    <div class="note red">
+      <strong>✗ Using the width as the margin of error</strong>
+      <p>Width $= 2z \times \text{SE}$. If the width is given, halve it before dividing by SE.</p>
+    </div>
+    <div class="note red">
+      <strong>✗ One-tailed instead of two-tailed</strong>
+      <p>$\beta/100 = 2P(0 &lt; Z &lt; z)$, not $P(Z &lt; z)$.</p>
+    </div>
+    <div class="note red">
+      <strong>✗ Rounding $p_s$ too early</strong>
+      <p>Keep at least 4 significant figures (or the exact fraction) until the final answer.</p>
+    </div>
+  </div>
+  <div class="note purple">
+    <strong>Meaning of "95% confident".</strong>
+    $p$ is fixed; the interval is what varies. If we repeated the sampling many times, about 95% of the intervals built this way would contain the true $p$. Once a particular interval is calculated, $p$ is either in it or not — the 95% describes the <em>method</em>, not that single interval.
+  </div>
+</section>
+
+</main>
+
+<footer>
+  Based on the Explanatory Notes to the Senior Secondary Mathematics Curriculum — Module 1 (Learning Unit 23) and HKDSE 2020 Mathematics M1 Question 4.
+</footer>
+
+<script>
+/* ---------- small math helpers ---------- */
+function erf(x){
+  const s = Math.sign(x); x = Math.abs(x);
+  const t = 1/(1+0.3275911*x);
+  const y = 1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x);
+  return s*y;
+}
+function Phi(z){ return 0.5*(1+erf(z/Math.SQRT2)); }
+function npdf(x, m, s){ return Math.exp(-0.5*Math.pow((x-m)/s,2))/(s*Math.sqrt(2*Math.PI)); }
+
+const SVGNS = 'http://www.w3.org/2000/svg';
+function svgEl(tag, attrs, text){
+  const e = document.createElementNS(SVGNS, tag);
+  for(const k in attrs) e.setAttribute(k, attrs[k]);
+  if(text !== undefined) e.textContent = text;
+  return e;
+}
+function svgText(parent, x, y, str, opts){
+  opts = opts || {};
+  const t = svgEl('text', {
+    x:x, y:y,
+    'font-size': opts.size || 12,
+    'text-anchor': opts.anchor || 'middle',
+    fill: opts.fill || '#475569',
+    'font-weight': opts.weight || 'normal'
+  }, str);
+  parent.appendChild(t);
+  return t;
+}
+
+/* ---------- 3. normal curve ---------- */
+function drawCurve(){
+  const z = parseFloat(document.getElementById('zSlider').value);
+  document.getElementById('zVal').textContent = z.toFixed(3);
+
+  const svg = document.getElementById('curveSvg');
+  svg.innerHTML = '';
+  const W=700, H=300, L=40, R=40, T=40, B=50;
+  const pw = W-L-R, ph = H-T-B;
+  const lo=-4, hi=4, ymax=0.45;
+  const X = x => L + (x-lo)/(hi-lo)*pw;
+  const Y = y => T + ph - y/ymax*ph;
+
+  // shaded regions
+  const shade = (a,b,fill) => {
+    let d = `M ${X(a)} ${Y(0)}`;
+    for(let i=0;i<=200;i++){ const x=a+(b-a)*i/200; d += ` L ${X(x)} ${Y(npdf(x,0,1))}`; }
+    d += ` L ${X(b)} ${Y(0)} Z`;
+    svg.appendChild(svgEl('path', {d:d, fill:fill}));
+  };
+  shade(-z, z, 'rgba(37,99,235,.30)');
+  shade(lo, -z, 'rgba(220,38,38,.30)');
+  shade(z, hi, 'rgba(220,38,38,.30)');
+
+  // axes
+  svg.appendChild(svgEl('line', {x1:L, y1:Y(0), x2:W-R, y2:Y(0), stroke:'#94a3b8'}));
+  svg.appendChild(svgEl('line', {x1:L, y1:T, x2:L, y2:T+ph, stroke:'#94a3b8'}));
+  for(let t=-4;t<=4;t++){
+    svg.appendChild(svgEl('line', {x1:X(t), y1:Y(0), x2:X(t), y2:Y(0)+5, stroke:'#94a3b8'}));
+    svgText(svg, X(t), Y(0)+20, String(t));
+  }
+
+  // curve
+  let d='';
+  for(let i=0;i<=400;i++){ const x=lo+(hi-lo)*i/400; d += (i?' L ':'M ') + X(x) + ' ' + Y(npdf(x,0,1)); }
+  svg.appendChild(svgEl('path', {d:d, fill:'none', stroke:'#0f172a', 'stroke-width':2}));
+
+  // z markers
+  [-z, z].forEach(v=>{
+    svg.appendChild(svgEl('line', {x1:X(v), y1:T, x2:X(v), y2:Y(0), stroke:'#2563eb', 'stroke-dasharray':'4 3'}));
+    svgText(svg, X(v), T-8, (v>0?'':'-')+Math.abs(v).toFixed(3), {fill:'#1e40af', weight:'bold'});
+  });
+
+  // labels
+  const central = 2*Phi(z)-1, tail = (1-central)/2;
+  svgText(svg, X(0), Y(0.16), (central*100).toFixed(2)+'%', {size:17, fill:'#1e40af', weight:'bold'});
+  svgText(svg, X((z+4)/2), Y(0.05), (tail*100).toFixed(2)+'%', {fill:'#b91c1c'});
+  svgText(svg, X((-z-4)/2), Y(0.05), (tail*100).toFixed(2)+'%', {fill:'#b91c1c'});
+  svgText(svg, W/2, H-10, 'standard normal  Z ~ N(0, 1)');
+
+  document.getElementById('curveStats').innerHTML =
+    `<div class="stat">P(0 &lt; Z &lt; ${z.toFixed(3)}) = <b>${(Phi(z)-0.5).toFixed(4)}</b></div>` +
+    `<div class="stat">Central area β/100 = <b>${central.toFixed(4)}</b></div>` +
+    `<div class="stat">Confidence level β ≈ <b>${(central*100).toFixed(2)}%</b></div>`;
+}
+function setZ(z){ document.getElementById('zSlider').value = z; drawCurve(); }
+document.getElementById('zSlider').addEventListener('input', drawCurve);
+
+/* ---------- 4. playground ---------- */
+function zFor(level){
+  if(level === 90) return 1.645;
+  if(level === 95) return 1.96;
+  if(level === 99) return 2.575;
+  return 1.96;
+}
+function playground(){
+  const n = parseInt(document.getElementById('nInput').value);
+  const x = parseInt(document.getElementById('xInput').value);
+  const level = parseInt(document.getElementById('levelSelect').value);
+
+  if(!(n>0) || !(x>=0) || x>n){
+    document.getElementById('playStats').innerHTML = '<div class="stat" style="color:#dc2626">Please enter 0 ≤ x ≤ n.</div>';
+    return;
+  }
+  const ps = x/n;
+  const se = Math.sqrt(ps*(1-ps)/n);
+  const z = zFor(level);
+  const me = z*se;
+  const lo = ps-me, hi = ps+me;
+
+  document.getElementById('playStats').innerHTML =
+    `<div class="stat">p<sub>s</sub> = <b>${ps.toFixed(4)}</b></div>` +
+    `<div class="stat">SE = <b>${se.toFixed(4)}</b></div>` +
+    `<div class="stat">z = <b>${z.toFixed(3)}</b></div>` +
+    `<div class="stat">Margin of error = <b>${me.toFixed(4)}</b></div>` +
+    `<div class="stat">${level}% CI ≈ <b>(${lo.toFixed(4)}, ${hi.toFixed(4)})</b></div>` +
+    `<div class="stat">Width ≈ <b>${(2*me).toFixed(4)}</b></div>`;
+
+  drawLine(ps, lo, hi, level);
+}
+function drawLine(ps, lo, hi, level){
+  const svg = document.getElementById('lineSvg');
+  svg.innerHTML = '';
+  const W=700, H=160, L=50, R=50;
+  const pad = Math.max(0.05, (hi-lo)*0.6);
+  const a = Math.max(0, Math.min(lo-pad, ps-pad));
+  const b = Math.min(1, Math.max(hi+pad, ps+pad));
+  const X = v => L + (v-a)/(b-a)*(W-L-R);
+  const axisY = 95;
+
+  svg.appendChild(svgEl('line', {x1:L, y1:axisY, x2:W-R, y2:axisY, stroke:'#94a3b8'}));
+  const step = (b-a)/8;
+  for(let i=0;i<=8;i++){
+    const v = a + step*i;
+    svg.appendChild(svgEl('line', {x1:X(v), y1:axisY, x2:X(v), y2:axisY+5, stroke:'#94a3b8'}));
+    svgText(svg, X(v), axisY+20, v.toFixed(3), {size:10});
+  }
+
+  // interval bar
+  svg.appendChild(svgEl('line', {x1:X(lo), y1:axisY-35, x2:X(hi), y2:axisY-35, stroke:'#2563eb', 'stroke-width':7, 'stroke-linecap':'round'}));
+  [lo,hi].forEach(v=>{
+    svg.appendChild(svgEl('line', {x1:X(v), y1:axisY-45, x2:X(v), y2:axisY-25, stroke:'#2563eb', 'stroke-width':2}));
+    svgText(svg, X(v), axisY-52, v.toFixed(4), {size:11, fill:'#1e40af', weight:'bold'});
+  });
+
+  // centre ps
+  svg.appendChild(svgEl('line', {x1:X(ps), y1:axisY-48, x2:X(ps), y2:axisY+8, stroke:'#ea580c', 'stroke-dasharray':'4 3'}));
+  svg.appendChild(svgEl('circle', {cx:X(ps), cy:axisY, r:5, fill:'#ea580c'}));
+  svgText(svg, X(ps), axisY+34, 'pₛ = '+ps.toFixed(4), {fill:'#ea580c', weight:'bold'});
+
+  svgText(svg, W/2, 20, level+'% confidence interval', {size:14, fill:'#1e3a8a', weight:'bold'});
+}
+['nInput','xInput','levelSelect'].forEach(id=>{
+  document.getElementById(id).addEventListener('change', playground);
+});
+</script>
+
+<script>
+/* ---------- 5. reveal the DSE steps one at a time ---------- */
+const steps = document.querySelectorAll('#dse .step');
+let stepIdx = 0;
+function nextStep(){
+  if(stepIdx < steps.length){ steps[stepIdx].classList.add('show'); stepIdx++; }
+}
+function showAllSteps(){ steps.forEach(s=>s.classList.add('show')); stepIdx = steps.length; }
+function hideAllSteps(){ steps.forEach(s=>s.classList.remove('show')); stepIdx = 0; }
+
+/* ---------- init ---------- */
+window.addEventListener('load', function(){
+  drawCurve();
+  playground();
+});
+</script>
+
+</body>
+</html>
