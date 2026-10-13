@@ -1,33 +1,29 @@
-# Confidence-Interval-for-a-Population-Proportion
+# Confidence Interval for a Population Proportion
 
-Teaching resources for **HKDSE Mathematics Extended Part — Module 1 (Calculus and Statistics)**,
-*Learning Unit 23: Confidence interval for a population proportion* (Objective 23.1).
-
-Based on the Explanatory Notes to the Senior Secondary Mathematics Curriculum (Module 1) and
-**HKDSE 2020 Mathematics M1 Question 4**.
+Offline-friendly teaching pages for the HKDSE Mathematics Module 1 (Calculus & Statistics) topic
+**"Confidence interval for a population proportion"**.
 
 ## Pages
 
-| File | What it is |
-|------|-----------|
-| `index.html` | The full guide. Sampling-distribution simulator, CI-coverage animation, z-explorer, calculator, DSE 2020 Q4 worked solution, and a DSE-style practice generator. |
-| `confidence-interval-proportion-v2.html` | A second, shorter visual version. Interactive normal curve (z → confidence level), a build-your-own-interval number line, and the 2020 Q4 solution revealed step by step. |
+| File | Description |
+| --- | --- |
+| `index.html` | Long-form lesson: full derivation, worked examples, canvas simulators. Uses MathJax from CDN. |
+| `confidence-interval-proportion-v2.html` | **New condensed visual version.** Gradient header + sticky nav, KaTeX typesetting, hand-drawn SVG visuals (normal curve with shaded tails, number line for the interval), an interactive playground, the HKDSE 2020 M1 Q4 walkthrough with step-by-step reveal, and a common-mistakes section. |
 
-## The content
+## Topics covered
 
-- Sample proportion $p_s = x/n$ as a point estimate of the unknown population proportion $p$
-- Sampling distribution: $P_s \sim N\!\left(p,\ \dfrac{p(1-p)}{n}\right)$ for large $n$
-- Standard error approximated by replacing the unknown $p$ with $p_s$
-- Confidence interval $p_s \pm z\sqrt{\dfrac{p_s(1-p_s)}{n}}$, with $z = 1.96$ (95%) and $z = 2.575$ (99%)
-- Width $= 2z\cdot\text{SE}$, and the reverse problem: given the width, recover $z$ then $\beta$
-- Common mistakes: forgetting the $\div n$, treating the width as the margin of error, using a one-tailed area
+- Sample proportion $\hat p = \dfrac{x}{n}$ as a point estimate of the population proportion $p$
+- Sampling distribution of $\hat p$ and the normal approximation
+  $\hat p \sim N\!\left(p,\ \sqrt{\dfrac{p(1-p)}{n}}\right)$
+- Confidence interval
+  $\hat p \pm z\sqrt{\dfrac{\hat p(1-\hat p)}{n}}$
+- Critical values $z_{0.05}=1.645$, $z_{0.025}=1.96$, $z_{0.005}=2.575$
+- Width of the interval $= 2z\sqrt{\dfrac{\hat p(1-\hat p)}{n}}$ — and how $n$ and the confidence
+  level affect it
+- Worked HKDSE example: $n=841$, $x=441$, interval width $0.088$
 
-## Run
+## Running
 
-No build step. Open either file in a browser, or serve the folder:
-
-```bash
-python3 -m http.server 8000
-```
-
-Maths is typeset with KaTeX from a CDN, so the first load needs an internet connection.
+Just open either `.html` file in a browser — no build step, no server.
+`index.html` and `confidence-interval-proportion-v2.html` load KaTeX / MathJax from a CDN, so an
+internet connection is needed for the formulas to render nicely (the text still reads without it).
